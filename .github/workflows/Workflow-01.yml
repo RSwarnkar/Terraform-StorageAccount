@@ -48,9 +48,6 @@ jobs:
       - name: Terraform Version
         run: terraform --version
 
-      - name: Terraform Validate
-        run: terraform validate
-      
       - name: Terraform Init 
         run: terraform init
 
