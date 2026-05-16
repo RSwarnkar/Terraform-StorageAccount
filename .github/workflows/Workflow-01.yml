@@ -13,7 +13,7 @@ permissions:
   contents: read        
   
 jobs:
-  terraform:
+  Create-Resources:
     runs-on: ubuntu-24.04
     environment: 
         name: payg-swarnka-01
