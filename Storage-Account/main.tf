@@ -1,26 +1,21 @@
-terraform {
-  backend "azurerm" {}
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "4.57.0" # lock a version
-    #   configuration_aliases = [
-    #     azurerm,
-    #     azurerm.payg_rswarnka01,
-    #     azurerm.payg_rswarnka02,
-    #     azurerm.payg_rswarnka03,
-    #     azurerm.payg_rswarnka04,
-    #     azurerm.payg_rswarnka05
-    #   ]
-    }
-  }
-}
 
 # Default provider
 provider "azurerm" {
   features {}
   resource_provider_registrations = "none"
 }
+
+ 
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "4.73.0"
+    }
+  }
+}
+ 
+
 
 # Create Resource Group
 resource "azurerm_resource_group" "resource_group" {
