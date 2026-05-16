@@ -1,0 +1,62 @@
+name: Workflow-01 Create Workflow
+on: 
+    push:
+      branches:
+        - main
+      paths:
+        - 'Storage-Account/*'
+        - ".github/workflows/workflow-01.yml"
+    workflow_dispatch:
+
+permissions:
+  id-token: write # REQUIRED for OIDC
+  contents: read        
+  
+jobs:
+  terraform:
+    runs-on: ubuntu-24.04
+    environment: 
+        name: payg-swarnka-01
+    env:
+      ARM_USE_OIDC: true # Important: Use OIDC Auth
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    defaults:
+      run:
+        working-directory: ./Storage-Account/
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Show Files
+        run: ls -ltra
+
+      - name: Azure Login using OIDC
+        uses: azure/login@v3
+        with:
+          client-id: ${{ env.ARM_CLIENT_ID }}
+          tenant-id: ${{ env.ARM_TENANT_ID }}
+          subscription-id: ${{ env.ARM_SUBSCRIPTION_ID }}
+
+      - name: Terraform Setup
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: 1.15.2          
+
+      - name: Terraform Version
+        run: terraform --version
+
+      - name: Terraform Validate
+        run: terraform validate
+      
+      - name: Terraform Init 
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan -input=false -out=tfplan
+    
+      - name: Terraform Apply
+        run: terraform apply -input=false tfplan
+      
