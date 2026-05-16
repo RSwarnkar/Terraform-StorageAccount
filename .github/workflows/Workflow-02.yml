@@ -1,5 +1,13 @@
 name: Workflow-02 Destroy Workflow
-on: workflow_dispatch
+on: 
+  push:
+    branches:
+      - main
+    paths:
+      - 'Storage-Account/Delete-SA.ps1'
+      - ".github/workflows/Workflow-02.yml"
+  workflow_dispatch:
+
 
 permissions:
   id-token: write # REQUIRED for OIDC
@@ -40,12 +48,7 @@ jobs:
       - name: Debug Azure Resources
         shell: pwsh
         run: |
-            Get-AzContext     
-      
-      - name: Run Cleanup Script
-        shell: pwsh
-        run: |
-           ./Delete-SA.ps1 -ResourceGroupName "rsw-alzd-p-cin-rsg-devops" -StorageAccountName "rswdevopstfstore"    
+            Get-AzContext      
  
       - name: Run Cleanup Script
         shell: pwsh
