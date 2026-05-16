@@ -3,10 +3,19 @@ param(
     [string]$ResourceGroupName,
 
     [Parameter(Mandatory = $true)]
-    [string]$StorageAccountName
+    [string]$StorageAccountName,
+
+    [Parameter(Mandatory = $true)]
+    [string]$SubscriptionId
 )
 
 $ErrorActionPreference = "Stop"
+
+Write-Host "Setting Azure Context..."
+
+Set-AzContext -SubscriptionId $SubscriptionId
+
+Get-AzContext
 
 Write-Host "Checking Storage Account..."
 
@@ -23,8 +32,6 @@ if ($storageAccount) {
         -ResourceGroupName $ResourceGroupName `
         -Name $StorageAccountName `
         -Force
-
-    Write-Host "Storage Account deletion initiated."
 }
 else {
     Write-Host "Storage Account does not exist. Skipping."
@@ -43,11 +50,7 @@ if ($resourceGroup) {
     Remove-AzResourceGroup `
         -Name $ResourceGroupName `
         -Force
-
-    Write-Host "Resource Group deletion initiated."
 }
 else {
     Write-Host "Resource Group does not exist. Skipping."
 }
-
-Write-Host "Cleanup completed."
