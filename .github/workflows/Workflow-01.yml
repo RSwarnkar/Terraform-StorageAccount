@@ -5,7 +5,7 @@ on:
         - main
       paths:
         - 'Storage-Account/*'
-        - ".github/workflows/workflow-01.yml"
+        - ".github/workflows/Workflow-01.yml"
     workflow_dispatch:
 
 permissions:
