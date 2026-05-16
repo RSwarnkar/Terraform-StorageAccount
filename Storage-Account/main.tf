@@ -31,7 +31,7 @@ resource "azurerm_resource_group" "resource_group" {
 
 resource "azurerm_storage_account" "sa" {
   name                     = "rswdevopstfstore"
-  resource_group_name      = azurerm_resource_group.resource_group
+  resource_group_name      = azurerm_resource_group.resource_group.name
   location                 = "centralindia"
   account_tier             = "Standard"
   account_replication_type = "LRS"
@@ -50,7 +50,7 @@ resource "azurerm_storage_account" "sa" {
 
 resource "azurerm_storage_container" "sa_container" {
   name                  = "subscriptions"
-  storage_account_id    = azurerm_storage_account.this.id
+  storage_account_id    = azurerm_storage_account.sa.id
   container_access_type = "private"
 }
 
